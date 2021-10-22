@@ -9,5 +9,7 @@ public interface BeerService {
     BeerDto getBeerById(UUID beerId);
 
     BeerDto addNewBeer(BeerDto beer);
+
+    void updateBeer(UUID beerId, BeerDto beerDto);
 }
 
