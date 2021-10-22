@@ -37,4 +37,11 @@ private final BeerService beerService;
         beerService.updateBeer(beerId, beerDto);
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
+
+	@DeleteMapping({"/{beerId}"})
+	@ResponseStatus(HttpStatus.NO_CONTENT) //for empty status return we can use response status
+	public void deleteBeer(@PathVariable("beerId") UUID beerId){
+		beerService.deleteById(beerId);
+
+	}
 }
