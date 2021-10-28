@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RequestMapping("/api/v1/beer")
 @RestController
 public class BeerController {
@@ -24,16 +26,16 @@ private final BeerService beerService;
 	}
 
 	@PostMapping //create the beer
-	public ResponseEntity<BeerDto> addBeer(@RequestBody BeerDto beerDto){
+	public ResponseEntity<BeerDto> addBeer(@Valid @RequestBody BeerDto beerDto){
 		BeerDto saveDto=beerService.addNewBeer(beerDto);
 		HttpHeaders headers=new HttpHeaders();
 		//todo add hostname to url
 		headers.add("Location", "/api/v1/beer/" + saveDto.getId().toString());
-		return new ResponseEntity<>(headers,HttpStatus.ACCEPTED);
+		return new ResponseEntity<>(headers,HttpStatus.CREATED);
 	}
 
     @PutMapping("/{beerId}")
-    public ResponseEntity handleUpdate(@PathVariable("beerId") UUID beerId,@RequestBody BeerDto beerDto) {
+    public ResponseEntity handleUpdate(@PathVariable("beerId") UUID beerId,@Valid @RequestBody BeerDto beerDto) {
         beerService.updateBeer(beerId, beerDto);
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
