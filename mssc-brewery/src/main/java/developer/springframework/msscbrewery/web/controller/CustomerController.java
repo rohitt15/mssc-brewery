@@ -7,7 +7,6 @@ import org.springframework.http.HttpStatus;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.function.ServerRequest;
 
 import javax.validation.ConstraintViolationException;
 import javax.validation.Valid;
@@ -33,7 +32,7 @@ public class CustomerController {
     public ResponseEntity<CustomerDto> addCustomer(@RequestBody CustomerDto customerDto) {
         CustomerDto customer = customerService.getAddCustomer(customerDto);
         HttpHeaders header = new HttpHeaders();
-        header.add("Location", "/api/v1//customer" + customer.getUuid().toString());
+        header.add("Location", "/api/v1//customer" + customer.getId().toString());
         return new ResponseEntity<>(header, HttpStatus.CREATED);
     }
 
@@ -47,15 +46,6 @@ public class CustomerController {
     public ResponseEntity deleteCustomer(@Valid @PathVariable("id") UUID id){
         customerService.deleteCustomer(id);
         return new ResponseEntity(HttpStatus.NO_CONTENT);
-    }
-
-    @ExceptionHandler(ConstraintViolationException.class)
-    public ResponseEntity<List> validateErrorHandling(ConstraintViolationException e){
-
-        List<String> error=new ArrayList<>(e.getConstraintViolations().size());
-        e.getConstraintViolations().forEach(constraintViolation ->
-                error.add(constraintViolation.getPropertyPath()+" : " + constraintViolation.getMessage()));
-        return  new ResponseEntity<>(error,HttpStatus.BAD_REQUEST);
     }
 
 }

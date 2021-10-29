@@ -30,6 +30,6 @@ public class BeerServiceImp implements BeerService{
 
     @Override
     public void deleteById(UUID beerId) {
-        log.debug("Deleting a beer..");
+        log.debug("Hello");
     }
 }
